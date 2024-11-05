@@ -8,7 +8,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @MessagePattern('create.session')
+  @MessagePattern('payment.create.session')
   createSession(@Payload() createSessionDto: CreateSessionDto) {
     return this.paymentsService.createSession(createSessionDto);
   }

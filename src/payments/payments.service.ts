@@ -62,15 +62,20 @@ export class PaymentsService {
     }
 
     switch (event.type) {
-      case 'charge.succeeded':
-        const chargeSucceeded = event.data.object;
+      case 'charge.succeeded': {
+        const { id, metadata, receipt_url } = event.data.object;
         const payload = {
-          paidId: chargeSucceeded.id,
-          orderId: chargeSucceeded.metadata.orderId,
-          receiptUrl: chargeSucceeded.receipt_url,
+          paidId: id,
+          orderId: metadata.orderId,
+          receiptUrl: receipt_url,
         };
 
         this.client.emit('order.payment', payload);
+
+        break;
+      }
+      case 'charge.failed':
+        console.log(`Event ${event.type} not handled.`);
         break;
       default:
         console.log(`Event ${event.type} not handled.`);
